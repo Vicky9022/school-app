@@ -2,8 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/api/addSchool": "pages/api/addSchool.js",
   "/showSchools": "pages/showSchools.js",
+  "/api/getSchools": "pages/api/getSchools.js",
   "/addSchool": "pages/addSchool.js",
-  "/api/getSchools": "pages/api/getSchools.js"
+  "/": "pages/index.js"
 }
