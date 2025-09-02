@@ -45,7 +45,7 @@ export default function ShowSchools() {
       <div className="grid">
         {filtered.map(s => (
           <article key={s.id} className="card">
-            <img className="image" src={s.image?.startsWith('http') ? s.image : (s.image || '').replace(/^public\//, '/')} alt={s.name} onError={(e) => { e.currentTarget.src = '/schoolImages/placeholder.png'; }} />
+            <img className="image" src={s.image || '/schoolImages/placeholder.png'} alt={s.name} />
             <div className="card-title">{s.name}</div>
             <div className="card-sub">{s.address}</div>
             <div className="card-sub">{s.city}</div>

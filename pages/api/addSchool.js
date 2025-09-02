@@ -34,19 +34,13 @@ apiRoute.post(async (req, res) => {
         return res.status(400).json({ message: 'All fields including image are required' });
       }
 
-      // Validation
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email_id);
-      const contactOk = /^[0-9]{10,15}$/.test(contact);
-      if (!emailOk) return res.status(400).json({ message: 'Invalid email' });
-      if (!contactOk) return res.status(400).json({ message: 'Invalid contact number' });
-
       // Upload image to Cloudinary
       const uploadResult = await cloudinary.uploader.upload(files.image.filepath, {
-        folder: 'schoolImages', // optional
+        folder: 'schoolImages',
       });
       const imageUrl = uploadResult.secure_url;
 
-      // Insert into database
+      // Insert into MySQL
       const [result] = await db.execute(
         `INSERT INTO schools (name, address, city, state, contact, image, email_id)
          VALUES (?, ?, ?, ?, ?, ?, ?)`,

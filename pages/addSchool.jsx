@@ -11,18 +11,13 @@ export default function AddSchool() {
     setErr(null);
     setResult(null);
     const formData = new FormData();
-    Object.keys(data).forEach((k) => {
+    Object.keys(data).forEach(k => {
       if (k !== 'image') formData.append(k, data[k]);
     });
-    if (data.image && data.image[0]) {
-      formData.append('image', data.image[0]);
-    }
+    if (data.image && data.image[0]) formData.append('image', data.image[0]);
 
     try {
-      const res = await fetch('/api/addSchool', {
-        method: 'POST',
-        body: formData
-      });
+      const res = await fetch('/api/addSchool', { method: 'POST', body: formData });
       const json = await res.json();
       if (!res.ok) throw new Error(json.message || 'Failed');
       setResult('School saved successfully ✅');
@@ -36,51 +31,48 @@ export default function AddSchool() {
     <main className="container">
       <div className="card">
         <h1>Add School</h1>
-        <p className="footer-note">This form uses <code>react-hook-form</code> for validation and uploads the image to <code>/public/schoolImages</code>.</p>
-
+        <p className="footer-note">Form uses react-hook-form and uploads images to Cloudinary.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>School Name</label>
-          <input className="input" placeholder="Ex: D Y Patil International" {...register('name', { required: 'Name is required', minLength: { value: 2, message: 'Too short' } })} />
+          <input {...register('name', { required: 'Name required', minLength: 2 })} className="input" />
           {errors.name && <div className="error">{errors.name.message}</div>}
 
           <label>Address</label>
-          <textarea className="input" placeholder="Street, Area" rows={2} {...register('address', { required: 'Address is required' })} />
+          <textarea {...register('address', { required: 'Address required' })} className="input" rows={2} />
           {errors.address && <div className="error">{errors.address.message}</div>}
 
           <div className="row">
             <div>
               <label>City</label>
-              <input className="input" placeholder="City" {...register('city', { required: 'City is required' })} />
-              {errors.city && <div className="error">{errors.city.message}</div>}
+              <input {...register('city', { required: true })} className="input" />
             </div>
             <div>
               <label>State</label>
-              <input className="input" placeholder="State" {...register('state', { required: 'State is required' })} />
-              {errors.state && <div className="error">{errors.state.message}</div>}
+              <input {...register('state', { required: true })} className="input" />
             </div>
           </div>
 
           <div className="row">
             <div>
               <label>Contact</label>
-              <input className="input" placeholder="10-digit phone" {...register('contact', { required: 'Contact is required', pattern: { value: /^[0-9]{10,15}$/, message: 'Enter 10-15 digits' } })} />
-              {errors.contact && <div className="error">{errors.contact.message}</div>}
+              <input {...register('contact', { required: true, pattern: /^[0-9]{10,15}$/ })} className="input" />
             </div>
             <div>
               <label>Email</label>
-              <input type="email" className="input" placeholder="school@example.com" {...register('email_id', { required: 'Email is required', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email' } })} />
-              {errors.email_id && <div className="error">{errors.email_id.message}</div>}
+              <input type="email" {...register('email_id', { required: true })} className="input" />
             </div>
           </div>
 
           <label>School Image</label>
-          <input type="file" accept="image/*" className="input" {...register('image', { required: 'Image is required' })} />
-          {errors.image && <div className="error">{errors.image.message}</div>}
+          <input type="file" accept="image/*" {...register('image', { required: true })} className="input" />
 
           <div style={{ display: 'flex', gap: 12, marginTop: 14 }}>
-            <button className="btn" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Saving...' : 'Save School'}</button>
-            <Link className="btn secondary" href="/showSchools">View Schools</Link>
+            <button type="submit" className="btn" disabled={isSubmitting}>
+              {isSubmitting ? 'Saving...' : 'Save School'}
+            </button>
+            <Link href="/showSchools" className="btn secondary">View Schools</Link>
           </div>
+
           {result && <p className="success">{result}</p>}
           {err && <p className="error">{err}</p>}
         </form>
