@@ -64,7 +64,8 @@ export default function AddSchool() {
           </div>
 
           <label>School Image</label>
-          <input type="file" accept="image/*" {...register('image', { required: true })} className="input" />
+          <input type="file" accept="image/*" {...register('image', { required: true })} />
+
 
           <div style={{ display: 'flex', gap: 12, marginTop: 14 }}>
             <button type="submit" className="btn" disabled={isSubmitting}>
